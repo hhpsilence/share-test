@@ -1,4 +1,82 @@
 <!doctype html>
-<title>已过期</title>
-<h1>此链接已过期</h1>
-<p>分享时间：2025-08-13 12:00</p>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>已过期</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#3b82f6',
+                        secondary: '#64748b',
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .content-auto {
+                content-visibility: auto;
+            }
+            .text-shadow {
+                text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-50 min-h-screen flex items-center justify-center p-4 font-sans">
+    <div class="text-center max-w-md w-full bg-white rounded-xl shadow-lg p-8 md:p-12 transform transition-all duration-300 hover:shadow-xl">
+        <div class="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-6">
+            <i class="fa fa-clock-o text-2xl text-red-500"></i>
+        </div>
+        
+        <h1 class="text-[clamp(2rem,5vw,3rem)] font-bold text-gray-800 mb-4 text-shadow">此链接已过期</h1>
+        
+        <p class="text-secondary text-lg mb-6">分享时间：2025-08-13 12:00</p>
+        
+        <div class="border-t border-gray-100 pt-6">
+            <p class="text-gray-600 mb-2">当前时间：</p>
+            <p id="currentTime" class="text-xl font-medium text-primary"></p>
+        </div>
+        
+        <div class="mt-8">
+            <a href="#" class="inline-block bg-primary hover:bg-primary/90 text-white font-medium py-3 px-6 rounded-lg transition-all duration-300 transform hover:-translate-y-1">
+                返回首页
+            </a>
+        </div>
+    </div>
+
+    <script>
+        // 更新当前时间的函数
+        function updateCurrentTime() {
+            const now = new Date();
+            // 格式化时间为：年-月-日 时:分:秒 星期几
+            const options = { 
+                year: 'numeric', 
+                month: '2-digit', 
+                day: '2-digit',
+                hour: '2-digit',
+                minute: '2-digit',
+                second: '2-digit',
+                weekday: 'long'
+            };
+            const formattedTime = now.toLocaleString('zh-CN', options);
+            document.getElementById('currentTime').textContent = formattedTime;
+        }
+        
+        // 初始调用一次
+        updateCurrentTime();
+        
+        // 每秒更新一次时间
+        setInterval(updateCurrentTime, 1000);
+    </script>
+</body>
+</html>
