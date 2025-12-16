@@ -16,7 +16,9 @@
                             pink: '#FF69B4',
                             orange: '#FF9F45',
                             yellow: '#FFE135',
-                            purple: '#C77DFF'
+                            purple: '#C77DFF',
+                            red: '#FF4757',
+                            cream: '#FFF3E0'
                         }
                     },
                     fontFamily: {
@@ -47,6 +49,9 @@
             .float-fast {
                 animation: float 2.5s ease-in-out infinite;
             }
+            .candle-glow {
+                box-shadow: 0 0 15px rgba(255,225,53,0.8), 0 0 25px rgba(255,159,69,0.6);
+            }
         }
     </style>
     <style>
@@ -66,9 +71,21 @@
             100% { transform: translateY(100vh) rotate(720deg) scale(0.8); opacity: 0; }
         }
         @keyframes flame {
-            0% { transform: scale(1) rotate(-3deg); opacity: 0.9; }
-            50% { transform: scale(1.15) rotate(3deg); opacity: 1; }
-            100% { transform: scale(1) rotate(-3deg); opacity: 0.9; }
+            0% { transform: scale(1.1) rotate(-5deg); opacity: 0.95; }
+            30% { transform: scale(1.2) rotate(3deg); opacity: 1; }
+            50% { transform: scale(1.3) rotate(-2deg); opacity: 1; }
+            70% { transform: scale(1.2) rotate(4deg); opacity: 1; }
+            100% { transform: scale(1.1) rotate(-5deg); opacity: 0.95; }
+        }
+        @keyframes flame-glow {
+            0% { box-shadow: 0 0 10px rgba(255,225,53,0.9), 0 0 20px rgba(255,159,69,0.7), 0 0 30px rgba(255,71,87,0.5); }
+            50% { box-shadow: 0 0 15px rgba(255,225,53,1), 0 0 25px rgba(255,159,69,0.9), 0 0 35px rgba(255,71,87,0.7), 0 0 45px rgba(255,71,87,0.3); }
+            100% { box-shadow: 0 0 10px rgba(255,225,53,0.9), 0 0 20px rgba(255,159,69,0.7), 0 0 30px rgba(255,71,87,0.5); }
+        }
+        @keyframes candle-flicker {
+            0% { box-shadow: 0 0 8px rgba(255,255,255,0.6), 0 0 12px rgba(255,243,224,0.4); }
+            50% { box-shadow: 0 0 12px rgba(255,255,255,0.8), 0 0 18px rgba(255,243,224,0.6); }
+            100% { box-shadow: 0 0 8px rgba(255,255,255,0.6), 0 0 12px rgba(255,243,224,0.4); }
         }
         @keyframes typing {
             from { width: 0; }
@@ -150,6 +167,28 @@
             z-index: 100;
             animation: firework 1s ease-out forwards;
         }
+        /* 蛋糕装饰 */
+        .cake-decoration {
+            position: absolute;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #FFE135, #FFD700);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .cake-icing {
+            position: absolute;
+            background: #FF69B4;
+            border-radius: 50%;
+        }
+        .candle-wick {
+            position: absolute;
+            width: 2px;
+            height: 8px;
+            background-color: #333;
+            top: -6px;
+            left: 50%;
+            transform: translateX(-50%);
+            border-radius: 1px;
+        }
     </style>
 </head>
 <body class="min-h-screen overflow-x-hidden relative pb-16 font-cute">
@@ -167,21 +206,54 @@
             🎂 愿你的每一天都闪闪发光，新的一岁万事顺意！🎊
         </p>
         
-        <!-- 生日蛋糕（已优化蜡烛位置，使其居中对齐） -->
-        <div class="mt-8 relative w-[clamp(180px,50vw,280px)] h-[clamp(160px,40vw,220px)] mx-auto float-slow">
+        <!-- 优化后的生日蛋糕 -->
+        <div class="mt-8 relative w-[clamp(180px,50vw,280px)] h-[clamp(180px,45vw,250px)] mx-auto float-slow">
             <!-- 蛋糕底座 -->
-            <div class="absolute bottom-0 w-full h-3/5 bg-gradient-to-b from-birthday-orange to-birthday-orange/80 rounded-t-3xl"></div>
+            <div class="absolute bottom-0 w-full h-3/5 bg-gradient-to-b from-birthday-orange to-birthday-orange/80 rounded-t-3xl">
+                <!-- 底座装饰纹理 -->
+                <div class="absolute top-2 left-0 w-full h-2 bg-birthday-cream/60 rounded-full"></div>
+                <div class="absolute top-6 left-0 w-full h-1 bg-birthday-cream/40 rounded-full"></div>
+                <!-- 底座装饰点 -->
+                <div class="cake-decoration w-3 h-3 top-1/3 left-10"></div>
+                <div class="cake-decoration w-2 h-2 top-1/2 left-16"></div>
+                <div class="cake-decoration w-3 h-3 top-2/3 left-8"></div>
+                <div class="cake-decoration w-2 h-2 top-1/4 right-12"></div>
+                <div class="cake-decoration w-3 h-3 top-2/3 right-10"></div>
+            </div>
             <!-- 蛋糕上层 -->
-            <div class="absolute bottom-[35%] w-[85%] left-[7.5%] h-2/5 bg-gradient-to-b from-birthday-orange to-birthday-orange/80 rounded-t-3xl"></div>
-            <!-- 奶油装饰 -->
+            <div class="absolute bottom-[35%] w-[85%] left-[7.5%] h-2/5 bg-gradient-to-b from-birthday-orange to-birthday-orange/80 rounded-t-3xl">
+                <!-- 上层装饰纹理 -->
+                <div class="absolute top-2 left-0 w-full h-2 bg-birthday-cream/70 rounded-full"></div>
+                <!-- 上层奶油装饰 -->
+                <div class="cake-icing w-4 h-4 top-4 left-10"></div>
+                <div class="cake-icing w-3 h-3 top-6 left-20"></div>
+                <div class="cake-icing w-4 h-4 top-4 left-30"></div>
+                <div class="cake-icing w-3 h-3 top-6 right-30"></div>
+                <div class="cake-icing w-4 h-4 top-4 right-20"></div>
+                <div class="cake-icing w-3 h-3 top-6 right-10"></div>
+            </div>
+            <!-- 蛋糕顶部奶油 -->
             <div class="absolute bottom-[60%] w-full h-[10%] bg-birthday-pink rounded-t-xl"></div>
-            <div class="absolute bottom-[60%] left-[30%] w-[10%] h-[15%] bg-birthday-yellow rounded-full"></div>
-            <div class="absolute bottom-[60%] left-[45%] w-[10%] h-[18%] bg-birthday-yellow rounded-full"></div>
-            <div class="absolute bottom-[60%] left-[60%] w-[10%] h-[12%] bg-birthday-yellow rounded-full"></div>
-            <!-- 蜡烛（已调整位置：left改为47.5%，bottom改为75%，确保居中对齐蛋糕上层中心） -->
-            <div class="absolute bottom-[75%] left-[47.5%] w-[5%] h-[20%] bg-white rounded-t-lg z-10 transform -translate-x-1/2"></div>
-            <!-- 火焰（同步调整位置，与蜡烛对齐） -->
-            <div class="absolute bottom-[95%] left-[47.5%] w-[8%] h-[15%] bg-gradient-to-t from-birthday-orange to-birthday-yellow rounded-full animate-flame z-20 transform -translate-x-1/2"></div>
+            <!-- 顶部装饰球 -->
+            <div class="absolute bottom-[60%] left-[30%] w-[10%] h-[15%] bg-gradient-to-br from-birthday-yellow to-birthday-yellow/80 rounded-full shadow-md"></div>
+            <div class="absolute bottom-[60%] left-[45%] w-[10%] h-[18%] bg-gradient-to-br from-birthday-yellow to-birthday-yellow/80 rounded-full shadow-md"></div>
+            <div class="absolute bottom-[60%] left-[60%] w-[10%] h-[12%] bg-gradient-to-br from-birthday-yellow to-birthday-yellow/80 rounded-full shadow-md"></div>
+            
+            <!-- 优化后的蜡烛（3根一组更美观） -->
+            <div class="absolute bottom-[75%] left-[40%] w-[5%] h-[22%] bg-gradient-to-t from-birthday-red to-white rounded-t-lg z-10 candle-glow animate-candle-flicker">
+                <div class="candle-wick"></div>
+            </div>
+            <div class="absolute bottom-[78%] left-[47.5%] w-[5%] h-[25%] bg-gradient-to-t from-birthday-pink to-white rounded-t-lg z-10 candle-glow animate-candle-flicker" style="animation-delay: 0.2s">
+                <div class="candle-wick"></div>
+            </div>
+            <div class="absolute bottom-[75%] left-[55%] w-[5%] h-[22%] bg-gradient-to-t from-birthday-purple to-white rounded-t-lg z-10 candle-glow animate-candle-flicker" style="animation-delay: 0.4s">
+                <div class="candle-wick"></div>
+            </div>
+            
+            <!-- 优化后的火焰（与3根蜡烛对应） -->
+            <div class="absolute bottom-[97%] left-[40%] w-[8%] h-[18%] bg-gradient-to-t from-birthday-orange to-birthday-yellow rounded-full animate-flame animate-flame-glow z-20 transform -translate-x-1/2"></div>
+            <div class="absolute bottom-[100%] left-[47.5%] w-[9%] h-[22%] bg-gradient-to-t from-birthday-orange to-birthday-yellow rounded-full animate-flame animate-flame-glow z-20 transform -translate-x-1/2" style="animation-delay: 0.2s"></div>
+            <div class="absolute bottom-[97%] left-[55%] w-[8%] h-[18%] bg-gradient-to-t from-birthday-orange to-birthday-yellow rounded-full animate-flame animate-flame-glow z-20 transform -translate-x-1/2" style="animation-delay: 0.4s"></div>
         </div>
     </header>
     <!-- 主体内容 -->
@@ -236,16 +308,18 @@
             </div>
             <p id="giftMsg" class="mt-6 text-[clamp(1rem,3vw,1.25rem)] text-birthday-pink font-medium hidden animate-pulse">祝你心想事成，好运连连！🎊</p>
         </section>
-        <!-- 生日歌播放区（已替换为指定外链播放器） -->
+        <!-- 生日歌播放区（设置自动循环） -->
         <section class="text-center mb-8">
             <h3 class="text-[clamp(1.1rem,3vw,1.5rem)] text-gray-700 mb-5">
                 <<i class="fa fa-music mr-2 text-birthday-orange"></</i>生日快乐歌 🎵
             </h3>
-            <!-- 替换为指定的网易云音乐外链播放器 -->
-            <iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width="330" height="86" src="//music.163.com/outchain/player?type=2&id=2624235389&auto=1&height=66"></iframe>
+            <!-- 网易云音乐外链播放器（添加autoplay和loop参数实现自动循环） -->
+            <iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width="330" height="86" 
+                    src="//music.163.com/outchain/player?type=2&id=2624235389&auto=1&loop=1&height=66">
+            </iframe>
+            <p class="text-sm text-gray-500 mt-2">🎶 自动循环播放，祝你生日快乐！</p>
         </section>
     </main>
-
     <!-- 彩带和烟花效果脚本 -->
     <script>
         // 生成彩带
