@@ -1,82 +1,500 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>已过期</title>
+    <title>胡海彬的生日祝福</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        primary: '#3b82f6',
-                        secondary: '#64748b',
-                    },
-                    fontFamily: {
-                        sans: ['Inter', 'system-ui', 'sans-serif'],
-                    },
-                }
-            }
+    <style>
+        /* 核心动画 */
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-15px); }
+            100% { transform: translateY(0px); }
         }
-    </script>
-    <style type="text/tailwindcss">
-        @layer utilities {
-            .content-auto {
-                content-visibility: auto;
-            }
-            .text-shadow {
-                text-shadow: 0 2px 4px rgba(0,0,0,0.1);
-            }
+        @keyframes glow {
+            0% { text-shadow: 0 0 5px #ff0080, 0 0 10px #ff0080; }
+            50% { text-shadow: 0 0 15px #ff0080, 0 0 20px #ff0080; }
+            100% { text-shadow: 0 0 5px #ff0080, 0 0 10px #ff0080; }
+        }
+        @keyframes confetti {
+            0% { transform: translateY(-100vh) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
+        }
+        @keyframes flame {
+            0% { transform: scale(1) rotate(-2deg); opacity: 0.9; }
+            50% { transform: scale(1.1) rotate(2deg); opacity: 1; }
+            100% { transform: scale(1) rotate(-2deg); opacity: 0.9; }
+        }
+        @keyframes typing {
+            from { width: 0; }
+            to { width: 100%; }
+        }
+        @keyframes blink {
+            50% { border-color: transparent; }
+        }
+        @keyframes firework {
+            0% { transform: translate(-50%, -50%) scale(0); opacity: 1; }
+            100% { transform: translate(-50%, -50%) scale(1); opacity: 0; }
+        }
+
+        /* 全局样式 - 移动端优先 */
+        .confetti {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background-color: var(--color);
+            opacity: 0;
+            animation: confetti 5s infinite;
+        }
+        .float { animation: float 3s ease-in-out infinite; }
+        .glow { animation: glow 2s ease-in-out infinite; }
+        
+        /* 蛋糕样式 */
+        .cake {
+            position: relative;
+            width: 180px;
+            max-width: 80%;
+            height: 120px;
+            margin: 0 auto;
+        }
+        .cake-base {
+            width: 100%;
+            height: 80px;
+            background: #f8c471;
+            border-radius: 10px 10px 0 0;
+            position: absolute;
+            bottom: 0;
+        }
+        .cake-icing {
+            width: 100%;
+            height: 20px;
+            background: #ff69b4;
+            border-radius: 5px 5px 0 0;
+            position: absolute;
+            top: 60px;
+        }
+        .candle {
+            width: 10px;
+            height: 40px;
+            background: #ffffff;
+            position: absolute;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            border-radius: 5px 5px 0 0;
+        }
+        .flame {
+            width: 15px;
+            height: 30px;
+            background: radial-gradient(#ffeb3b, #ff5722);
+            border-radius: 50% 50% 20% 20%;
+            position: absolute;
+            top: -25px;
+            left: 50%;
+            transform: translateX(-50%);
+            animation: flame 1s ease-in-out infinite;
+            filter: blur(1px);
+        }
+        
+        /* 打字机效果 */
+        .typewriter {
+            overflow: hidden;
+            border-right: .15em solid #ff0080;
+            white-space: nowrap;
+            margin: 0 auto;
+            animation: typing 3.5s steps(40, end), blink .75s step-end infinite;
+        }
+        
+        /* 礼物盒样式 */
+        .gift-box {
+            width: 120px;
+            max-width: 30%;
+            height: 120px;
+            position: relative;
+            margin: 0 auto;
+            cursor: pointer;
+            perspective: 1000px;
+        }
+        .gift-lid {
+            width: 100%;
+            height: 30px;
+            background: #ff3366;
+            position: absolute;
+            top: 0;
+            border-radius: 5px 5px 0 0;
+            transition: all 0.5s ease;
+            transform-origin: bottom;
+        }
+        .gift-body {
+            width: 100%;
+            height: 90px;
+            background: #ff6699;
+            position: absolute;
+            bottom: 0;
+            border-radius: 0 0 5px 5px;
+        }
+        .gift-ribbon {
+            position: absolute;
+            background: #ffff00;
+        }
+        .gift-ribbon-h {
+            width: 100%;
+            height: 10px;
+            top: 40px;
+        }
+        .gift-ribbon-v {
+            width: 10px;
+            height: 100%;
+            left: calc(50% - 5px);
+        }
+        .gift-box:hover .gift-lid {
+            transform: rotateX(180deg);
+        }
+        
+        /* 烟花容器 */
+        .firework {
+            position: absolute;
+            pointer-events: none;
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background: radial-gradient(circle, #fff, #ff0, #f00, transparent);
+            animation: firework 1s ease-out forwards;
+        }
+
+        /* 许愿墙样式 */
+        .wish-wall {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 20px;
+            padding: 1.5rem;
+            margin: 2rem auto;
+            max-width: 90%;
+            box-shadow: 0 4px 20px rgba(255, 105, 180, 0.2);
+        }
+        .wish-title {
+            color: #ff69b4;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+        .wish-input {
+            width: 100%;
+            padding: 0.8rem;
+            border: 2px solid #ffc0cb;
+            border-radius: 10px;
+            resize: none;
+            font-size: 1rem;
+            margin-bottom: 1rem;
+            min-height: 100px;
+        }
+        .wish-btn {
+            background: #ff69b4;
+            color: white;
+            border: none;
+            padding: 0.8rem 2rem;
+            border-radius: 50px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .wish-btn:hover {
+            background: #ff1493;
+            transform: scale(1.05);
+        }
+        .wish-list {
+            margin-top: 1.5rem;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        .wish-item {
+            background: #fff0f5;
+            padding: 1rem;
+            border-radius: 10px;
+            margin-bottom: 1rem;
+            box-shadow: 0 2px 10px rgba(255, 105, 180, 0.1);
+            animation: float 3s ease-in-out infinite;
+            animation-delay: calc(var(--i) * 0.2s);
+        }
+        .wish-author {
+            color: #ff69b4;
+            font-weight: bold;
+            margin-top: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        /* 音频控制按钮 */
+        .audio-control-btn {
+            background: #ff69b4;
+            color: white;
+            border: none;
+            padding: 0.8rem 2.5rem;
+            border-radius: 50px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin: 0 0.5rem;
+        }
+        .audio-control-btn:hover {
+            background: #ff1493;
+            transform: scale(1.05);
         }
     </style>
 </head>
-<body class="bg-gray-50 min-h-screen flex items-center justify-center p-4 font-sans">
-    <div class="text-center max-w-md w-full bg-white rounded-xl shadow-lg p-8 md:p-12 transform transition-all duration-300 hover:shadow-xl">
-        <div class="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-6">
-            <i class="fa fa-clock-o text-2xl text-red-500"></i>
+<body class="bg-gradient-to-br from-pink-100 to-yellow-100 min-h-screen overflow-x-hidden relative pb-10">
+    <!-- 彩带动画 -->
+    <div id="confetti-container" class="fixed inset-0 pointer-events-none"></div>
+    <!-- 烟花容器 -->
+    <div id="firework-container" class="fixed inset-0 pointer-events-none"></div>
+
+    <!-- 头部 - 纯生日快乐祝福 -->
+    <header class="pt-8 pb-4 text-center px-4">
+        <h1 class="text-4xl md:text-7xl font-bold text-pink-600 glow">生日快乐！</h1>
+        <h2 class="text-2xl md:text-4xl mt-2 text-orange-500 float">胡海彬</h2>
+        <p class="mt-4 text-lg md:text-xl text-gray-600 float delay-100 birthday-today">
+            🎂 愿你的每一天都闪闪发光，新的一岁万事顺意！🎊
+        </p>
+        
+        <!-- 生日蛋糕动画 -->
+        <div class="mt-6 cake float delay-200">
+            <div class="cake-base"></div>
+            <div class="cake-icing"></div>
+            <div class="candle">
+                <div class="flame"></div>
+            </div>
         </div>
-        
-        <h1 class="text-[clamp(2rem,5vw,3rem)] font-bold text-gray-800 mb-4 text-shadow">此链接已过期</h1>
-        
-        <p class="text-secondary text-lg mb-6">分享时间：2025-08-13 12:00</p>
-        
-        <div class="border-t border-gray-100 pt-6">
-            <p class="text-gray-600 mb-2">当前时间：</p>
-            <p id="currentTime" class="text-xl font-medium text-primary"></p>
-        </div>
-        
-        <div class="mt-8">
-            <a href="#" class="inline-block bg-primary hover:bg-primary/90 text-white font-medium py-3 px-6 rounded-lg transition-all duration-300 transform hover:-translate-y-1">
-                返回首页
-            </a>
-        </div>
-    </div>
+    </header>
+
+    <!-- 主体内容 -->
+    <main class="max-w-4xl mx-auto px-4 py-4">
+        <!-- 照片展示区 -->
+        <section class="bg-white/80 rounded-2xl p-4 md:p-6 shadow-lg mb-6 transform hover:scale-[1.01] transition-all duration-300">
+            <h3 class="text-xl md:text-2xl font-semibold text-pink-500 mb-3">我们的回忆</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                <img src="https://p3-flow-imagex-sign.byteimg.com/tos-cn-i-a9rns2rl98/12989b4c60ac420b90966d171031a57c.jpg~tplv-a9rns2rl98-image.png?rcl=20251216191335BB77DFD306774F5F669D&rk3s=8e244e95&rrcfp=dafada99&x-expires=2082107616&x-signature=YHqTrrvDGOqpghhtg%2BydsZGDd6U%3D" 
+                     alt="胡海彬的照片" 
+                     class="rounded-lg w-full h-48 md:h-64 object-cover hover:scale-105 transition-transform duration-300 shadow-md">
+                <img src="https://p3-flow-imagex-sign.byteimg.com/tos-cn-i-a9rns2rl98/0011c3b844254b9fa2d9b25526271190.jpg~tplv-a9rns2rl98-image.png?rcl=20251216191335BB77DFD306774F5F669D&rk3s=8e244e95&rrcfp=dafada99&x-expires=2082107616&x-signature=AwDvCaPe07CvAvbPGW3vUDsMEYg%3D" 
+                     alt="胡海彬的照片" 
+                     class="rounded-lg w-full h-48 md:h-64 object-cover hover:scale-105 transition-transform duration-300 shadow-md">
+            </div>
+        </section>
+
+        <!-- 祝福语（打字机效果） -->
+        <section class="bg-white/80 rounded-2xl p-4 md:p-6 shadow-lg mb-6 transform hover:scale-[1.01] transition-all duration-300">
+            <h3 class="text-xl md:text-2xl font-semibold text-pink-500 mb-3">生日祝福</h3>
+            <div class="text-base md:text-lg text-gray-700 leading-relaxed max-w-2xl mx-auto">
+                <p class="typewriter mb-2">海彬，生日快乐！</p>
+                <p class="mt-3">愿这一天充满欢笑、惊喜和所有你喜欢的事物，新的一岁继续闪闪发光✨</p>
+                <p class="mt-2">未来的日子，我们一起继续创造更多有趣的回忆~</p>
+                <p class="mt-3 text-right text-pink-500 font-medium">—— 你的朋友</p>
+            </div>
+        </section>
+
+        <!-- 礼物盒互动区 -->
+        <section class="text-center mt-8 mb-8">
+            <h3 class="text-lg md:text-xl text-gray-600 mb-4">点击礼物盒拆生日礼物 🎁</h3>
+            <div class="gift-box" id="giftBox">
+                <div class="gift-lid"></div>
+                <div class="gift-body"></div>
+                <div class="gift-ribbon gift-ribbon-h"></div>
+                <div class="gift-ribbon gift-ribbon-v"></div>
+            </div>
+            <p id="giftMsg" class="mt-3 text-pink-500 text-lg font-medium hidden">祝你新岁暴富暴美/暴帅！生日快乐🎊</p>
+        </section>
+
+        <!-- 许愿墙 -->
+        <section class="wish-wall">
+            <h3 class="wish-title">生日许愿墙 ✨</h3>
+            <textarea class="wish-input" id="wishInput" placeholder="写下对海彬的生日祝福吧..."></textarea>
+            <div class="text-center">
+                <button class="wish-btn" id="addWishBtn">发布祝福</button>
+            </div>
+            <div class="wish-list" id="wishList"></div>
+        </section>
+
+        <!-- 生日歌播放 - 自动循环 + 暂停/播放按钮 -->
+        <section class="text-center mt-8">
+            <h3 class="text-lg md:text-xl text-gray-600 mb-3">生日快乐歌 🎵</h3>
+            <!-- 隐藏原生音频控件，用自定义按钮控制 -->
+            <audio id="birthdayAudio" loop style="display: none;">
+                <source src="https://assets.mixkit.co/sfx/preview/mixkit-happy-birthday-song-2347.mp3" type="audio/mpeg">
+                <source src="https://cdn.pixabay.com/download/audio/2022/01/27/audio_0985020928.mp3?filename=happy-birthday-183996.mp3" type="audio/mpeg">
+                你的浏览器不支持音频播放
+            </audio>
+            <!-- 自定义播放/暂停按钮 -->
+            <button class="audio-control-btn" id="playBtn">
+                <i class="fa fa-pause"></i> 暂停播放
+            </button>
+            <button class="audio-control-btn" id="restartBtn">
+                <i class="fa fa-refresh"></i> 重新播放
+            </button>
+        </section>
+    </main>
+
+    <!-- 底部 -->
+    <footer class="mt-8 pb-6 text-center text-gray-500 text-sm px-4">
+        <p>祝胡海彬生日快乐 | 2025</p>
+    </footer>
 
     <script>
-        // 更新当前时间的函数
-        function updateCurrentTime() {
-            const now = new Date();
-            // 格式化时间为：年-月-日 时:分:秒 星期几
-            const options = { 
-                year: 'numeric', 
-                month: '2-digit', 
-                day: '2-digit',
-                hour: '2-digit',
-                minute: '2-digit',
-                second: '2-digit',
-                weekday: 'long'
-            };
-            const formattedTime = now.toLocaleString('zh-CN', options);
-            document.getElementById('currentTime').textContent = formattedTime;
+        // 1. 生成彩带动画
+        function createConfetti() {
+            const colors = ['#ff0080', '#ffd700', '#00ff80', '#0080ff', '#ff8000'];
+            const container = document.getElementById('confetti-container');
+            
+            for (let i = 0; i < 150; i++) {
+                const confetti = document.createElement('div');
+                confetti.classList.add('confetti');
+                confetti.style.left = `${Math.random() * 100}vw`;
+                confetti.style.animationDelay = `${Math.random() * 8}s`;
+                confetti.style.animationDuration = `${3 + Math.random() * 4}s`;
+                confetti.style.setProperty('--color', colors[Math.floor(Math.random() * colors.length)]);
+                container.appendChild(confetti);
+            }
         }
-        
-        // 初始调用一次
-        updateCurrentTime();
-        
-        // 每秒更新一次时间
-        setInterval(updateCurrentTime, 1000);
+
+        // 2. 点击生成烟花特效
+        function createFirework(x, y) {
+            const container = document.getElementById('firework-container');
+            const firework = document.createElement('div');
+            firework.classList.add('firework');
+            firework.style.left = `${x}px`;
+            firework.style.top = `${y}px`;
+            firework.style.width = `${50 + Math.random() * 100}px`;
+            firework.style.height = `${50 + Math.random() * 100}px`;
+            container.appendChild(firework);
+            
+            setTimeout(() => {
+                firework.remove();
+            }, 1000);
+        }
+
+        // 3. 礼物盒点击事件
+        document.getElementById('giftBox').addEventListener('click', function() {
+            document.getElementById('giftMsg').classList.remove('hidden');
+            document.getElementById('giftMsg').classList.add('animate-bounce');
+            const rect = this.getBoundingClientRect();
+            const x = rect.left + rect.width / 2;
+            const y = rect.top + rect.height / 2;
+            createFirework(x, y);
+        });
+
+        // 4. 全局点击烟花
+        document.addEventListener('click', function(e) {
+            createFirework(e.clientX, e.clientY);
+        });
+
+        // 5. 许愿墙功能
+        function addWish() {
+            const wishInput = document.getElementById('wishInput');
+            const wishText = wishInput.value.trim();
+            
+            if (!wishText) {
+                alert('请输入祝福语哦～');
+                return;
+            }
+            
+            const wishList = document.getElementById('wishList');
+            const wishItem = document.createElement('div');
+            wishItem.classList.add('wish-item');
+            wishItem.style.setProperty('--i', wishList.children.length);
+            
+            const nicknames = ['小天使', '好朋友', '匿名祝福者', '铁杆粉丝', '暖心伙伴'];
+            const randomNickname = nicknames[Math.floor(Math.random() * nicknames.length)];
+            
+            wishItem.innerHTML = `
+                <p>${wishText}</p>
+                <p class="wish-author">—— ${randomNickname}</p>
+            `;
+            
+            wishList.insertBefore(wishItem, wishList.firstChild);
+            wishInput.value = '';
+            
+            const rect = wishList.getBoundingClientRect();
+            const x = rect.left + rect.width / 2;
+            const y = rect.top + rect.height / 2;
+            createFirework(x, y);
+        }
+
+        // 6. 音频控制核心逻辑（自动播放+循环+暂停/播放）
+        const audio = document.getElementById('birthdayAudio');
+        let isPlaying = false;
+
+        // 自动播放音频（通过用户交互触发，兼容浏览器政策）
+        function initAudio() {
+            // 页面点击时自动播放（第一次点击后永久生效）
+            document.addEventListener('click', function playAudioOnClick() {
+                if (!isPlaying) {
+                    audio.play()
+                        .then(() => {
+                            isPlaying = true;
+                            updatePlayBtnText();
+                            console.log('生日歌已自动播放');
+                        })
+                        .catch(err => {
+                            console.log('音频播放需要手动触发:', err);
+                            alert('请点击"播放生日歌"按钮开始播放～');
+                        });
+                    // 只执行一次
+                    document.removeEventListener('click', playAudioOnClick);
+                }
+            }, { once: true });
+
+            // 播放/暂停按钮切换
+            document.getElementById('playBtn').addEventListener('click', function() {
+                if (isPlaying) {
+                    audio.pause();
+                    isPlaying = false;
+                } else {
+                    audio.play();
+                    isPlaying = true;
+                }
+                updatePlayBtnText();
+            });
+
+            // 重新播放按钮
+            document.getElementById('restartBtn').addEventListener('click', function() {
+                audio.currentTime = 0;
+                audio.play();
+                isPlaying = true;
+                updatePlayBtnText();
+            });
+        }
+
+        // 更新播放/暂停按钮文字
+        function updatePlayBtnText() {
+            const playBtn = document.getElementById('playBtn');
+            if (isPlaying) {
+                playBtn.innerHTML = '<i class="fa fa-pause"></i> 暂停播放';
+            } else {
+                playBtn.innerHTML = '<i class="fa fa-play"></i> 播放生日歌';
+            }
+        }
+
+        // 绑定许愿按钮事件
+        document.getElementById('addWishBtn').addEventListener('click', addWish);
+        document.getElementById('wishInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                addWish();
+            }
+        });
+
+        // 页面加载后执行
+        window.onload = () => {
+            createConfetti();
+            
+            // 蛋糕火焰闪烁
+            setInterval(() => {
+                const flame = document.querySelector('.flame');
+                flame.style.opacity = Math.random() * 0.2 + 0.8;
+            }, 300);
+
+            // 初始化音频（自动播放）
+            initAudio();
+        };
     </script>
 </body>
 </html>
